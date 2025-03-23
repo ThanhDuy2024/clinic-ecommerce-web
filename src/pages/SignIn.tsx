@@ -101,7 +101,7 @@ const SignIn = () => {
               </form>
 
               <div className="mt-[20px] flex items-center">
-                <Link to={PublicPaths.SIGN_UP} className='mr-[10px]'>
+                <Link to={PublicPaths.SIGN_UP} className="mr-[10px]">
                   <div className="hover:text-green-700">
                     Bạn chưa có tài khoản?
                   </div>

@@ -18,7 +18,11 @@ export const Login = async (email: string, password: string) => {
   }
 };
 
-export const Register = async (fullName: String, email: String, password: String) => {
+export const Register = async (
+  fullName: string,
+  email: string,
+  password: string
+) => {
   try {
     await axios.post(`${BASE_API_URL}/register`, {
       fullName,
@@ -29,4 +33,4 @@ export const Register = async (fullName: String, email: String, password: String
   } catch (error) {
     throw new Error(`Register Failed ! ${error}`);
   }
-}
+};

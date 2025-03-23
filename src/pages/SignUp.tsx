@@ -76,7 +76,6 @@ const SignUp = () => {
                 Đăng Ký Tài Khoản
               </h2>
               <form onSubmit={handleSubmit} className="space-y-4">
-                
                 <input
                   type="text"
                   placeholder="Nhập tên:"
