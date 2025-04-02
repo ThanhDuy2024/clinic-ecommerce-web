@@ -2,20 +2,33 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useToast } from '../context/ToastContext';
+import * as Yup from 'yup';
 import PublicPaths from '../routes/public/pathPublic';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const { showToast } = useToast();
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    if (!email) {
-      showToast('Bạn chưa nhập email', { type: 'error' });
-      return;
+    const schema = Yup.object({
+      email: Yup.string()
+        .email('Email sai định dạng')
+        .required('email bắt buộc phải có'),
+    });
+
+    try {
+      await schema.validate({ email });
+      showToast('Đã gửi mã OTP đến email của bạn', { type: 'success' });
+      console.log('OTP requested for:', email);
+      setError('');
+    } catch (err) {
+      setError((err as Error).message);
+      showToast((err as Error).message, { type: 'error' });
     }
-    showToast('Đã gữi mã otp đến email của bạn', { type: 'success' });
-    console.log('OTP requested for:', email);
   };
+
   return (
     <div className="flex items-center justify-center mb-[30px]">
       <motion.div
@@ -50,10 +63,11 @@ const ForgotPassword = () => {
             transition={{ delay: 0.6 }}
             type="email"
             placeholder="Ví dụ: levana@gmail.com"
-            className="mt-2 w-full p-2 border border-gray-300 rounded-lg h-[56px] mb-[15px] focus:outline-green-500"
+            className="mt-2 w-full p-2 border border-gray-400 rounded-lg h-[56px] mb-[5px] focus:outline-green-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {error && <p className="text-red-500 text-sm mb-[10px]">{error}</p>}
           <motion.button
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
